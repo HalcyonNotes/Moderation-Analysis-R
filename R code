@@ -227,15 +227,11 @@ hist(alspac$PA_MET_score,
      xlim=c(0,402),
      breaks=1576)
 
-psych::describe(alspac$PA_MET_score)
-
 hist(alspac$dep_score,
      main="Frequency of Depression Scores",
      xlab="Depression Score",
      xlim=c(13,39),
      breaks=26)
-
-psych::describe(alspac$dep_score)
 
 hist(alspac$dep_PGS,
      main="Frequency of Depression PGS Scores",
@@ -316,18 +312,6 @@ ks.test(alspac$dep_score, "pnorm", mean(alspac$dep_score), sd(alspac$dep_score))
 
 #Moderation Analysis without covariates/confounders
 library(interactions)
-
-#moderation_model <- lm(dep_score ~ dep_PGS * PA_MET_score, data = alspac)
-
-#interact_plot(moderation_model, 
-#              pred = dep_PGS, 
-#              modx = PA_MET_score, 
-#              interval = TRUE,
-#              legend.main = "Physical Activity Levels",
-#              x.label = "Polygenic Risk Score", 
-#              y.label = "Depressive Symptoms Score", 
-#              main.title = "Interaction Between PRS and Physical Activity",
-#              colors = "Reds")
 
 moderation_model_c <- lm(dep_score_centred ~ dep_PGS_centred * PA_centred, data = alspac)
 
@@ -416,7 +400,7 @@ bptest(moderation_model_c)
 bptest(moderation_model_cov_c)
 
 
-#Checking for multicollinearity - VIF>5 indicates multicollinearity
+#Checking for multicollinearity
 vif(moderation_model_cov_c)
 vif(moderation_model_cov_c, type = "predictor")
 
