@@ -2,8 +2,8 @@
 #Moderation Analysis of Physical Activity on Genetic Risk for Depression and Depressive Symptoms Severity
 ##########################################################################################################
 
-#Setting working directory into my folder in RDSF - must connect first
-setwd("/Volumes/moderation_PGS_PA/Data")
+#Setting working directory
+setwd(pathname)
 getwd()
 
 #Loading haven to read .sav file
@@ -14,7 +14,7 @@ library(haven)
 rm(list=ls())
 
 #Read in dataset - Never overwrite file
-alspac <- read_sav("farzana_dataset_updated.sav")
+alspac <- read_sav(dataset.sav)
 head(alspac)
 
 #Loading tidyverse for data manipulation and cleaning
@@ -59,31 +59,6 @@ table(alspac$YPB2050)
 alspac$YPB2050[alspac$YPB2050 == -1] <- NA
 sum(is.na(alspac$YPB2050))
 alspac <- alspac %>% drop_na(YPB2050)
-
-table(alspac$YPC1650)
-sum(is.na(alspac$YPC1650))
-alspac$YPC1650[alspac$YPC1650 %in% c(-10, -1)] <- NA
-sum(is.na(alspac$YPC1650))
-alspac <- alspac %>% drop_na(YPC1650)
-
-sum(is.na(alspac$YPC1651))+
-sum(is.na(alspac$YPC1652))+
-sum(is.na(alspac$YPC1653))+
-sum(is.na(alspac$YPC1654))+
-sum(is.na(alspac$YPC1655))+
-sum(is.na(alspac$YPC1656))+
-sum(is.na(alspac$YPC1657))+
-sum(is.na(alspac$YPC1658))+
-sum(is.na(alspac$YPC1659))+
-sum(is.na(alspac$YPC1660))+
-sum(is.na(alspac$YPC1661))+
-sum(is.na(alspac$YPC1662))+
-sum(is.na(alspac$YPC1663))+
-sum(is.na(alspac$YPC1664))+
-sum(is.na(alspac$YPC1665))+
-sum(is.na(alspac$YPC1666))+
-sum(is.na(alspac$YPC1667))
-
 
 #Removing missing values in depression symptom variables
 table(alspac$YPC1651)
