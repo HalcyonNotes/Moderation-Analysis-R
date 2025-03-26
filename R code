@@ -61,6 +61,12 @@ sum(is.na(alspac$YPB2050))
 alspac <- alspac %>% drop_na(YPB2050)
 
 #Removing missing values in depression symptom variables
+table(alspac$YPC1650)
+sum(is.na(alspac$YPC1650))
+alspac$YPC1650[alspac$YPC1650 %in% c(-10, -1)] <- NA
+sum(is.na(alspac$YPC1650))
+alspac <- alspac %>% drop_na(YPC1650)
+
 table(alspac$YPC1651)
 alspac$YPC1651[alspac$YPC1651 == -1] <- NA
 sum(is.na(alspac$YPC1651))
@@ -204,13 +210,20 @@ psych::describe(alspac$Cycle_MET)
 alspac <- alspac %>% 
   mutate(PA_MET_score = alspac$Cycle_MET + alspac$Walk_MET_spd)
 
+#Correlation between MET and total PA hours
+alspac <- alspac %>% 
+  mutate(PA_hours = alspac$YPB2030 + alspac$YPB2010)
+
+library(ggpubr)
+cor.test(alspac$PA_MET_score, alspac$PA_hours, method = "pearson")
+
 #Combining individual MH questions into single depression score 
 alspac <- alspac %>% 
   mutate(dep_score = rowSums(select(., c(YPC1650, YPC1651, YPC1653, YPC1654, YPC1655, YPC1656, 
                                          YPC1658, YPC1659, YPC1660, YPC1662, YPC1663, YPC1665, 
                                          YPC1667))))
 
-#Checking dpression score
+#Checking depression score
 head(alspac$dep_score)
 table(alspac$dep_score)
 psych::describe(alspac$dep_score)
